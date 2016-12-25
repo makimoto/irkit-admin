@@ -5,7 +5,7 @@ require 'omniauth'
 require 'omniauth/strategies/google_oauth2'
 require 'denv'
 
-Denv.load
+Denv.load if File.exists?('.env')
 
 class App < Sinatra::Base
   use Rack::Session::Cookie, secret: ENV['SECRET_KEY_BASE'], expire_after: 60 * 10
