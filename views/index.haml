@@ -1,0 +1,9 @@
+!!!
+%html
+  %head
+    %title IRKit Admin - #{request.host}
+  %body
+    %ul
+      - @irkit_commands.each do |name, command|
+        %li
+          %a.command{href: "/execute/#{name}"}= name
