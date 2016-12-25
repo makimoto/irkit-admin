@@ -11,9 +11,9 @@ class App < Sinatra::Base
   use Rack::Session::Cookie, secret: ENV['SECRET_KEY_BASE'], expire_after: 60 * 10
   use OmniAuth::Builder do
     provider :google_oauth2,
-      scope: 'email',
       ENV['GOOGLE_CLIENT_ID'],
       ENV['GOOGLE_CLIENT_SECRET'],
+      scope: 'email',
       hd: ENV['GOOGLE_HD']
   end
 
@@ -51,6 +51,14 @@ class App < Sinatra::Base
   end
 
   def execute(cmd)
+    message = fetch_irkit_data[params['cmd']]
+    uri = URI.parse('https://api.getirkit.com/1/messages')
+    Net::HTTP.post_form(
+      uri,
+      clientkey: ENV['IRKIT_CLIENTKEY'],
+      deviceid: ENV['IRKIT_DEVICEID'],
+      message: message,
+    )
   end
 
   def require_auth
