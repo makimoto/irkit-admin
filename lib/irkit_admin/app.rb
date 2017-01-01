@@ -7,6 +7,7 @@ require 'denv'
 
 Denv.load if File.exists?('.env')
 
+module IRKitAdmin
 class App < Sinatra::Base
   use Rack::Session::Cookie, secret: ENV['SECRET_KEY_BASE'], expire_after: 60 * 10
   use OmniAuth::Builder do
@@ -99,4 +100,5 @@ class App < Sinatra::Base
     end
     ENV['ALLOWED_EMAILS'].split(',')
   end
+end
 end

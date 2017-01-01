@@ -1,3 +1,3 @@
-require './app'
+require 'irkit_admin/app'
 
-run App
+run IRKitAdmin::App
