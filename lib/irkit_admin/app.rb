@@ -44,7 +44,24 @@ class App < Sinatra::Base
     redirect '/'
   end
 
+  def self.rack(config={})
+    klass = self
+
+    context = initialize_context(config)
+    app = lambda { |env|
+      env[CONTEXT_RACK_ENV_NAME] = context
+      klass.call(env)
+    }
+  end
+
   private
+
+  def self.initialize_context(config)
+    {}.tap do |ctx|
+      ctx[:config] = config
+    end
+  end
+
   def fetch_irkit_data
     uri = URI.parse(ENV['IRKIT_DATA_URI'])
     res = Net::HTTP.get(uri)
